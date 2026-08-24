@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة عرض - إضافة عقار جديد</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .top-bar {
+            width: 100%;
+            height: 60px;
+            border-bottom: 2px solid #333333;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .back-btn {
+            text-decoration: none;
+            color: #333333;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            border: 2px solid #333333;
+            box-sizing: border-box;
+        }
+        .form-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: bold;
+            border-bottom: 1px dashed #333333;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #333333;
+            box-sizing: border-box;
+            background-color: #ffffff;
+        }
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        .file-input-wrapper {
+            border: 2px dashed #333333;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+        .file-input-wrapper input[type="file"] {
+            display: block;
+            margin: 10px auto 0 auto;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #2da3e7;
+            color: #000000;
+            border: 2px solid #333333;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background-color: #11e261;
+            color: #ffffff;
+        }
+
+         body { font-family: 'Tajawal', sans-serif; background-color: #f5f7fa; color: #2c3e50; margin: 0; padding: 0; }
+        .top-bar { width: 100%; height: 70px; background: white; display: flex; align-items: center; padding: 0 30px; box-sizing: border-box; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .back-btn { text-decoration: none; color: #7f8c8d; font-weight: 700; }
+        .back-btn:hover { color: #e74c3c; }
+
+        .main-wrapper { max-width: 800px; margin: 40px auto; padding: 0 20px; box-sizing: border-box; }
+        
+        /* حاوية استمارة الإضافة */
+        .form-container { padding: 40px; background: #ffffff; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); margin-bottom: 40px; }
+        .form-title { text-align: center; font-size: 26px; margin-bottom: 35px; font-weight: 900; }
+        .form-group { margin-bottom: 25px; display: flex; flex-direction: column; }
+        .form-group label { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 14px; font-size: 16px; font-family: inherit; border: 1px solid #dcdde1; border-radius: 12px; box-sizing: border-box; background-color: #f8f9fa; }
+        .form-group textarea { height: 120px; resize: none; }
+        .submit-btn { width: 100%; padding: 16px; font-size: 17px; font-weight: 700; font-family: inherit; background: linear-gradient(135deg, #2980b9, #3498db); color: white; border: none; border-radius: 14px; cursor: pointer; box-shadow: 0 5px 15px rgba(52,152,219,0.3); }
+        
+        /* حاوية لوحة الحذف وإدارة الإعلانات القديمة */
+        .manage-container { padding: 40px; background: #ffffff; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
+        .manage-title { font-size: 22px; font-weight: 900; margin-bottom: 25px; border-bottom: 2px solid #f1f2f6; padding-bottom: 10px; }
+        
+        /* قائمة العقارات القابلة للحذف */
+        .property-list-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border: 1px solid #e2e8f0; border-radius: 14px; margin-bottom: 15px; background-color: #f8f9fa; }
+        .property-info { display: flex; align-items: center; gap: 15px; }
+        .property-thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 10px; }
+        .property-text { display: flex; flex-direction: column; gap: 4px; }
+        .property-text .desc-preview { font-size: 14px; color: #7f8c8d; font-weight: 500; max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .property-text .loc-preview { font-size: 12px; color: #3498db; font-weight: 700; }
+        
+        /* زر الحذف الأحمر الفخم */
+        .delete-btn { background-color: #ff7675; color: white; border: none; padding: 10px 18px; font-size: 14px; font-family: inherit; font-weight: 700; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
+        .delete-btn:hover { background-color: #d63031; }
+        
+        .no-properties { text-align: center; color: #95a5a6; padding: 20px; font-weight: 500; }
+
+
+    </style>
+</head>
+<body>
+
+   
+    
+
+          
+
+          
+             
+    
+    <div class="top-bar">
+        <a href="index.html" class="back-btn">✕ إلغاء العودة</a>
+    </div>
+    <!--خذف-->
+    <div class="main-wrapper">
+        <!-- 1. استمارة الإضافة -->
+        
+        
+
+        <div class="form-container">
+            <div class="form-title">إضافة عقار جديد للبيع</div>
+
+            <form id="propertyForm">
+            <div class="form-group">
+                <label for="propCategory">إضافة صورة العقار:</label>
+                <div class="file-input-wrapper">
+                    <span>اختر ملف صورة</span>
+                    <input type="file" id="propImage" accept="image/*" required>
+                </div>
+            </div>
+
+            <form id="propertyForm">
+                <div class="form-group">
+                    <label for="propCategory">نوع العقار</label>
+                    <select id="propCategory" required>
+                        <option value="industrial">عقار صناعي</option>
+                        <option value="commercial">عقار تجاري</option>
+                        <option value="residential" selected>عقار منازل</option>
+                        <option value="agricultural">عقار فلاحي</option>
+                    </select>
+                </div>
+
+                
+
+                <div class="form-group">
+                    <label for="propLocation">مكان تواجد العقار</label>
+                    <input type="text" id="propLocation" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="propPrice">سعر البيع (د.ج)</label>
+                    <input type="number" id="propPrice" placeholder="أدخل السعر الإجمالي" required>
+                </div>
+                <div class="form-group">
+                    <label for="propDescription">وصف العقار التفصيلي</label>
+                    <textarea id="propDescription" placeholder="مثال.." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">نشر العقار الآن</button>
+                <button type="submit" class="submit-btn">حذف</button>
+           
+            </form>
+        </div>
+
+        <!-- 2. لوحة التحكم وحذف الإعلانات -->
+        <div class="manage-container">
+            <div class="manage-title">إدارة العقارات المنشورة (حذف العروض)</div>
+            <div id="userPropertiesList">
+                <!-- سيتم حقن العقارات وزر الحذف هنا عبر الـ JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('propertyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const imageFile = document.getElementById('propImage').files[0];
+            const location = document.getElementById('propLocation').value;
+            const price = document.getElementById('propPrice').value;
+            const description = document.getElementById('propDescription').value;
+
+            // تحويل الصورة إلى صيغة نصية (Base64) لحفظها في المتصفح
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imageData = event.target.result;
+
+                // إنشاء كائن العقار الجديد
+                const newProperty = {
+                    image: imageData,
+                    location: location,
+                    price: price,
+                    description: description,
+                    date: new Date().toLocaleString()
+                };
+
+                // جلب العقارات القديمة أو إنشاء مصفوفة جديدة إذا كانت فارغة
+                let propertiesList = JSON.parse(localStorage.getItem('userProperties')) || [];
+                
+                // إضافة العقار الجديد في أول القائمة ليظهر في الأعلى
+                propertiesList.unshift(newProperty);
+
+                // حفظ القائمة المحدثة
+                localStorage.setItem('userProperties', JSON.stringify(propertiesList));
+
+                alert('تم نشر عقارك بنجاح! يمكنك الآن رؤيته عند الضغط على أي زر عقار في الصفحة الرئيسية.');
+                window.location.href = 'index.html';
+            };
+            
+            if (imageFile) {
+                reader.readAsDataURL(imageFile);
+            }
+        });
+
+         const sampleImages = {
+            industrial: "https://unsplash.com",
+            commercial: "https://unsplash.com",
+            residential: "https://unsplash.com",
+            agricultural: "https://unsplash.com"
+        };
+
+        // دالة لعرض العقارات الحالية المسجلة وتوليد أزرار الحذف لها
+        function renderManageList() {
+            const listContainer = document.getElementById('userPropertiesList');
+            const propertiesList = JSON.parse(localStorage.getItem('secureProperties')) || [];
+
+            if (propertiesList.length === 0) {
+                listContainer.innerHTML = '<div class="no-properties">لا توجد لديك عقارات منشورة حالياً لتعديلها أو حذفها.</div>';
+                return;
+            }
+
+            listContainer.innerHTML = ''; // تفريغ القائمة لإعادة البناء
+            
+            // نمر على كل عقار ونعطيه رقم تسلسلي (index) لكي نتمكن من حذفه بدقة
+            propertiesList.forEach((prop, index) => {
+                const item = document.createElement('div');
+                item.className = 'property-list-item';
+                
+                // ترجمة الفئة للعربية للعرض المريح في اللوحة
+                let catName = "منزل";
+                if(prop.category === 'industrial') catName = "صناعي";
+                if(prop.category === 'commercial') catName = "تجاري";
+                if(prop.category === 'agricultural') catName = "فلاحي";
+
+                item.innerHTML = `
+                    <div class="property-info">
+                        <img src="${prop.image}" class="property-thumb" alt="عقار">
+                        <div class="property-text">
+                            <span class="loc-preview">[قسم ${catName}] - ${prop.location}</span>
+                            <span class="desc-preview">${prop.description}</span>
+                        </div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteProperty(${index})">حذف العقار</button>
+                `;
+                listContainer.appendChild(item);
+            });
+        }
+
+        // دالة حذف العقار المحدّد حسب ترتيبه في مصفوفة التخزين
+        function deleteProperty(index) {
+            if (confirm("هل أنت متأكد من رغبتك في حذف هذا العقار نهائياً من الموقع؟")) {
+                let propertiesList = JSON.parse(localStorage.getItem('secureProperties')) || [];
+                
+                // إزالة العنصر المختار من المصفوفة
+                propertiesList.splice(index, 1);
+                
+                // إعادة حفظ المصفوفة الجديدة بعد الحذف في المتصفح
+                localStorage.setItem('secureProperties', JSON.stringify(propertiesList));
+                
+                // تحديث اللوحة أمام المستخدم فوراً
+                renderManageList();
+                alert("تم حذف العقار وإزالته من العروض بنجاح!");
+            }
+        }
+
+        // معالجة استمارة الإضافة
+        document.getElementById('propertyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const category = document.getElementById('propCategory').value;
+            const location = document.getElementById('propLocation').value;
+            const price = document.getElementById('propPrice').value;
+            const description = document.getElementById('propDescription').value;
+
+            const newProperty = {
+                category: category,
+                image: sampleImages[category],
+                location: location,
+                price: price,
+                description: description,
+                date: new Date().toLocaleDateString('ar-DZ')
+            };
+
+            let propertiesList = JSON.parse(localStorage.getItem('secureProperties')) || [];
+            propertiesList.unshift(newProperty);
+            localStorage.setItem('secureProperties', JSON.stringify(propertiesList));
+            
+            alert('تم نشر العقار بنجاح!');
+            
+            // مسح قيم المدخلات لتجهيز الاستمارة لإضافة أخرى
+            document.getElementById('propertyForm').reset();
+            
+            // إعادة بناء قائمة الحذف لتظهر العقار المضاف حديثاً فوراً
+            renderManageList();
+        });
+
+        // تشغيل عرض قائمة الحذف فور فتح الصفحة
+   
+     </script>
+</body>
+</html>

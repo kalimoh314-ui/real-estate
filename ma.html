@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> عقار </title>
+     <link rel="preconnect" href="https://googleapis.com">
+     <!-- استيراد خط Tajawal الأنيق من جوجل -->
+     <style>  
+      /* إعدادات الصفحة العامة */ 
+      html, body { margin: 0; 
+        padding: 0; 
+        width: 100%; 
+        height: 100%; 
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        overflow: hidden; 
+        /* لمنع ظهور أشرطة التمرير بسبب الخلفية */ 
+    } 
+    /* ==================== كود الخلفية المتحركة بـ CSS ==================== */ 
+        .background-slider { position: fixed; 
+        top: 0; left: 0; 
+        width: 100%; 
+        height: 100%; 
+        z-index: -1; 
+        /* لجعل الخلفية خلف محتوى الموقع دائماً */ 
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        /* استدعاء الأنيميشن: المدة الإجمالية 15 ثانية (5 ثوانٍ لكل صورة) وتتكرر للأبد */ 
+        animation: changeBackground 15s infinite ease-in-out; } 
+        @keyframes changeBackground { 
+            
+            /* الصورة الأولى: تعرض من البداية وحتى 33% من الوقت الإجمالي */ 
+            0%, 28% { background-image: url('a.jpg'); } 
+            /* تأثير الانتقال (Fade) بين الصورة الأولى والثانية */ 
+            33%, 61% { background-image: url('b.jpg'); } 
+            /* تأثير الانتقال (Fade) بين الصورة الثانية والثالثة */ 
+            66%, 95% { background-image: url('https://unsplash.com'); } 
+            /* العودة للصورة الأولى بسلاسة عند نهاية الـ 100% */ 
+            100% { background-image: url('https://unsplash.com'); } } 
+            /* ==================== محتوى فوق الخلفية (مثال) ==================== */ 
+            .content-box { position: absolute; top: 50%; 
+                left: 50%; 
+                transform: translate(-50%, -50%); 
+                background: rgba(255, 255, 255, 0.85); 
+                backdrop-filter: blur(8px); 
+                /* تأثير زجاجي ضبابي للمحتوى */ 
+                padding: 40px; 
+                border-radius: 15px; 
+                text-align: center; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+        max-width: 400px; 
+        width: 90%; 
+    } h1 { color: #2c3e50; 
+        margin-bottom: 15px; 
+    } p { color: #555; 
+        line-height: 1.6; 
+    } 
+
+    </style>  
+</head>
+<body>
+   
+            <!-- عنصر الخلفية المتحركة --> 
+            <div class="background-slider"></div> 
+            <!-- محتوى موقعك يكتب هنا --> 
+            <div class="content-box"> 
+                <h1>مرحباً بك في موقعنا</h1> 
+                <p>تتغير الخلفية في هذا الموقع تلقائياً كل 5 ثوانٍ بفضل تأثيرات CSS الاحترافية والناعمة.</p> 
+            </div>   
+    
+    </body>
+</html>        

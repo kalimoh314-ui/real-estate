@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة إعلان جديد - لوحة التحكم</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .form-container {
+            max-width: 600px;
+            background: #ffffff;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        input[type="text"], input[type="url"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        .btn-submit {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>إضافة إعلان جديد</h2>
+    
+    <!-- تأكد من إضافة enctype لعقد رفع الملفات والصور -->
+    <form action="insert-ad.php" method="POST" enctype="multipart/form-data">
+        
+        <!-- مكان ظهور الإعلان -->
+        <div class="form-group">
+            <label for="ad_position">مكان ظهور الإعلان:</label>
+            <select name="ad_position" id="ad_position" required>
+                <option value="in_between">بين العقارات المعروضة</option>
+                <option value="footer">أسفل الصفحة (Footer)</option>
+            </select>
+        </div>
+
+        <!-- نوع الإعلان -->
+        <div class="form-group">
+            <label for="ad_type">نوع الإعلان:</label>
+            <select name="ad_type" id="ad_type" onchange="toggleAdFields()" required>
+                <option value="image">إعلان مباشر (صورة ورابط)</option>
+                <option value="code">كود شبكة إعلانية (جوجل أدسنس)</option>
+            </select>
+        </div>
+
+        <!-- حقول مخصصة للإعلان الصوري المباشر -->
+        <div id="image_fields">
+            <div class="form-group">
+                <label for="ad_image">اختر صورة الإعلان (Banner):</label>
+                <input type="file" name="ad_image" id="ad_image" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="target_link">رابط توجيه الزائر (Target Link):</label>
+                <input type="url" name="target_link" id="target_link" placeholder="https://example.com">
+            </div>
+        </div>
+
+        <!-- حقل مخصص لكود أدسنس أو البرمجيات الأخرى -->
+        <div id="code_fields" class="hidden">
+            <div class="form-group">
+                <label for="embed_code">كود الإعلان النصي (Embed Code):</label>
+                <textarea name="embed_code" id="embed_code" placeholder="الصق كود الـ JavaScript أو الـ HTML هنا..."></textarea>
+            </div>
+        </div>
+
+        <!-- زر الحفظ -->
+        <button type="submit" class="btn-submit">حفظ وتفعيل الإعلان</button>
+    </form>
+</div>
+
+<script>
+    // وظيفة للتبديل بين الحقول بناءً على نوع الإعلان المختار
+    function toggleAdFields() {
+        var adType = document.getElementById('ad_type').value;
+        var imageFields = document.getElementById('image_fields');
+        var codeFields = document.getElementById('code_fields');
+
+        if (adType === 'image') {
+            imageFields.classList.remove('hidden');
+            codeFields.classList.add('hidden');
+            // جعل الحقول مطلوبة عند اختيار نوع الصورة
+            document.getElementById('target_link').required = true;
+            document.getElementById('embed_code').required = false;
+        } else {
+            imageFields.classList.add('hidden');
+            codeFields.classList.remove('hidden');
+            // جعل حقل الكود مطلوباً عند اختيار نوع الكود
+            document.getElementById('target_link').required = false;
+            document.getElementById('embed_code').required = true;
+        }
+    }
+    
+    // تشغيل الدالة لمرة واحدة عند تحميل الصفحة لضبط الحالة الافتراضية
+    window.onload = toggleAdFields;
+</script>
+
+</body>
+</html>
+
+</body>
+
+</html>
+

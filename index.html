@@ -1,0 +1,535 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> عقار </title>
+    <!-- استيراد خط Tajawal الأنيق من جوجل -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+
+         :root {
+            --bg-color: #f5f7fa;
+            --text-color: #2c3e50;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+            --accent-color: #3498db;
+            --sidebar-bg: #ffffff;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --gradient: linear-gradient(135deg, #2980b9, #3498db);
+        }
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #f5f7fa;
+            --border-color: #2c3e50;
+            --card-bg: #1e1e1e;
+            --sidebar-bg: #1e1e1e;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            --gradient: linear-gradient(135deg, #1f4068, #162447);
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0; padding: 0;
+            transition: background 0.4s, color 0.4s;
+        }
+
+
+        /* الشريط العلوي مع زر تسجيل الدخول */
+        .top-bar {
+            width: 100%; height: 70px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; 
+            justify-content: space-between; /* لتوزيع العناصر على الأطراف */
+            align-items: center;
+            padding: 0 30px; box-sizing: border-box;
+            box-shadow: var(--shadow);
+        }
+        .menu-icon {
+            font-size: 28px; cursor: pointer; user-select: none;
+            display: flex; align-items: center; justify-content: center;
+            width: 45px; height: 45px; border-radius: 12px;
+            background-color: var(--bg-color);
+        }
+        
+        /* زر تسجيل الدخول الجمالي */
+        .login-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 15px;
+            font-family: inherit;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .logo-area { text-align: center; margin-top: 40px; margin-bottom: 25px; }
+        .main-title {
+            font-size: 75px; font-weight: 900; display: inline-block;
+            background: var(--gradient); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; letter-spacing: 2px;
+            position: relative;
+        }
+        .main-title::after {
+            content: ''; position: absolute; bottom: -5px; left: 20%;
+            width: 60%; height: 4px; background: var(--gradient); border-radius: 10px;
+        }
+         /* ==================== تصميم نافذة تسجيل الدخول المنبثقة (Modal) ==================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10000;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1; pointer-events: auto;
+        }
+        .modal-box {
+            background-color: var(--card-bg);
+            padding: 40px;
+            width: 90%; max-width: 400px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            box-sizing: border-box;
+        }
+        .modal-overlay.show .modal-box {
+            transform: translateY(0);
+        }
+        
+
+        /* تعريف متغيرات الألوان المتناسقة للوضع العادي والليلي */
+        :root {
+            --bg-color: #f5f7fa;
+            --text-color: #2c3e50;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+            --accent-color: #3498db;
+            --sidebar-bg: #ffffff;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --gradient: linear-gradient(135deg, #2980b9, #3498db);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #f5f7fa;
+            --border-color: #2c3e50;
+            --card-bg: #1e1e1e;
+            --accent-color: #3498db;
+            --sidebar-bg: #1e1e1e;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            --gradient: linear-gradient(135deg, #1f4068, #162447);
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            transition: background 0.4s, color 0.4s;
+        }
+
+        /* 1. شريط علوي أنيق */
+        .top-bar {
+            width: 100%;
+            height: 70px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            box-sizing: border-box;
+            box-shadow: var(--shadow);
+        }
+
+        /* زر القائمة ثلاثي الخطوط بشكل عصري */
+        .menu-icon {
+            font-size: 28px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background-color: var(--bg-color);
+        }
+        .menu-icon:hover {
+            transform: scale(1.05);
+            color: var(--accent-color);
+        }
+
+        /* 2. حاوية الشعار الرئيسي في المنتصف بتأثير متدرج */
+        .logo-area {
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 60px;
+        }
+
+        .main-title {
+            font-size: 75px;
+            font-weight: 900;
+            display: inline-block;
+            background: var(--gradient);
+            -webkit-background-clip : text ;
+            -webkit-text-fill-color: transparent ;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        /* خط زخرفي تحت الشعار */
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 20%;
+            width: 60%;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 10px;
+        }
+
+        /* 3. صف الأزرار الأربعة بتصميم بطاقات فخم */
+        .buttons-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .property-box {
+            width: 160px;
+            height: 160px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px; /* زوايا منحنية ناعمة */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* تأثير الصعود والإضاءة عند تمرير الفأرة فوق الصناديق */
+        .property-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(52, 152, 219, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .property-box span:first-child {
+            font-weight: 400;
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+
+        /* 4. القائمة الجانبية الأنيقة */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 320px;
+            height: 100%;
+            background-color: var(--sidebar-bg);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.05);
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 30px;
+            box-sizing: border-box;
+            z-index: 9999;
+            border-radius: 24px 0 0 24px;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        body[dir="ltr"] .sidebar {
+            right: auto;
+            left: -320px;
+            border-radius: 0 24px 24px 0;
+        }
+        body[dir="ltr"] .sidebar.open { left: 0; }
+
+        .close-btn {
+            font-size: 20px;
+            cursor: pointer;
+            text-align: left;
+            margin-bottom: 40px;
+            color: var(--text-color);
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .close-btn:hover { opacity: 1; }
+        body[dir="ltr"] .close-btn { text-align: right; }
+
+        .menu-item {
+            padding: 18px 10px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 17px;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-item select {
+            padding: 8px 12px;
+            font-size: 15px;
+            font-family: inherit;
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            outline: none;
+        }
+
+        /* تعديل تصميم زر التبديل للوضع الليلي ليكون أجمل */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #e2e8f0; transition: .4s; border-radius: 30px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px;
+            background-color: white; transition: .4s; border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        input:checked + .slider { background: var(--gradient); }
+        input:checked + .slider:before { transform: translateX(24px); }
+        
+        /* حاوية شريط البحث الدائري المطابق للرسم اليدوي تماماً */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        .search-bar-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+         /* حقل الإدخال بشكل بيضاوي/دائري الأطراف حسب الرسم */
+        .search-input {
+            width: 100%;
+            padding: 16px 25px 16px 60px; /* مسافة إضافية من اليسار للأيقونة */
+            font-size: 16px;
+            font-family: inherit;
+            border: 2px solid var(--text-color);
+            border-radius: 50px; /* حواف دائرية بالكامل */
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            outline: none;
+            box-sizing: border-box;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.15);
+        }
+
+        /* رمز المكبرة في أقصى يسار حقل البحث كمخطط الرسم الصغير */
+        .search-icon {
+            position: absolute;
+            left: 22px;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            color: var(--text-color);
+        }
+
+       .in-feed-ad, .bottom-page-ad {
+    width: 100%;
+    max-width: 728px; /* حجم قياسي للبانرات الإعلانية */
+    margin: 20px auto;
+    text-align: center;
+}
+.in-feed-ad img, .bottom-page-ad img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+
+    </style>
+</head>
+<body>
+ <!-- شريط تنقل محدث يحتوي على تسجيل الدخول والـ 3 خطوط -->
+    
+        <div class="top-bar">
+            <div class="menu-icon" onclick="toggleMenu()">☰</div>
+            <a href="login.html" class="login-btn" style="text-decoration: none; text-align: center; line-height: 25px;">تسجيل الدخول</a>
+
+            
+         </div>    
+    <div class="logo-area">
+                  <div class="main-title" id="logo-text">عقار</div>
+              </div>
+<!-- مكان البحث البيضاوي المضاف والجديد حسب الرسم تماماً -->
+    <div class="search-container">
+        <div class="search-bar-wrapper">
+            <input type="text" id="mainSearchInput" class="search-input" placeholder="ابحث " onkeypress="handleSearch(event)">
+            <div class="search-icon" onclick="executeSearch()">🔍</div>
+        </div>
+    </div>
+
+
+    <div class="buttons-row">
+        <a href="details.html?type=industrial" class="property-box" id="box-ind">
+            <span>قسم</span>
+            <span>عقار صناعي</span>
+        </a>
+        <a href="details.html?type=commercial" class="property-box" id="box-com">
+            <span>قسم</span>
+            <span>عقار تجاري</span>
+        </a>
+        <a href="details.html?type=residential" class="property-box" id="box-res">
+            <span>قسم</span>
+            <span>عقار منازل</span>
+        </a>
+        <a href="details.html?type=agricultural" class="property-box" id="box-agr">
+            <span>قسم</span>
+            <span>عقار فلاحي</span>
+        </a>
+    </div>
+    
+    
+           
+
+
+    <div class="sidebar" id="sidebarMenu">
+        
+        <div class="close-btn" onclick="toggleMenu()">✕ إغلاق القائمة</div>
+        
+        
+        <a href="add-property.html" class="menu-item" id="item-sale" style="text-decoration: none;
+         color: var(--text-color); 
+         display: flex;">
+            <span>عنصر بيع</span>
+            <span style="color: var(--accent-color);">←</span>
+        </a>
+        
+        <div class="menu-item">
+            <span id="lbl-lang">اللغة</span>
+            <select id="langSelect" onchange="switchLanguage(this.value)">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+        
+        <div class="menu-item">
+            <span id="lbl-theme">الوضع الليلي</span>
+            <label class="switch">
+                <input type="checkbox" onchange="switchTheme(this.checked)">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="menu-item">
+           <a href="اعلان.html" class="menu-item" id="item-sale" style="text-decoration: none;
+         color: var(--text-color); display: flex;">
+        
+           <span >ادارة الاعلانات</span>
+           <span style="color: #3498db;">📍</span>
+           </a>
+         </div>
+
+    </div>
+
+    
+
+      
+                
+                
+                   
+    <script>
+        function toggleMenu() {
+            document.getElementById('sidebarMenu').classList.toggle('open');
+        }
+
+        function switchTheme(isDark) {
+            if(isDark) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        }
+
+        const dictionary = {
+            ar: {
+                logo: "عقار",
+                ind: ["قسم", "عقار صناعي"],
+                com: ["قسم", "عقار تجاري"],
+                res: ["قسم", "عقار منازل"],
+                agr: ["قسم", "عقار فلاحي"],
+                sale: "عنصر بيع",
+                lang: "اللغة",
+                theme: "الوضع الليلي"
+               } }
+               document.addEventListener('click', function(event) {
+    var sidebar = document.getElementById('sidebarMenu');
+    
+    // تحقق مما إذا كانت القائمة مفتوحة حالياً (بناءً على الكلاس أو الستايل المستخدم لديك)
+    // وتأكد من أن النقرة تمت خارج القائمة وخارج الزر الذي يفتحها
+    if (sidebar.classList.contains('close-btn') && !sidebar.contains(event.target)) {
+        toggleMenu(); // استدعاء الدالة الخاصة بك لإغلاق القائمة
+    }
+});
+
+    </script>
+
+   <!-- مكان الإعلان أسفل الصفحة -->
+<div class="bottom-page-ad">
+    <!-- كود إعلان جوجل أدسنس أو البانر الخاص بك -->
+    <a href="https://sponsor-link.com" target="_blank">
+        <img src="ads/bottom-banner.jpg" alt="أفضل شركات الديكور">
+    </a>
+</div>
+
+
+    </body>
+</html>        
