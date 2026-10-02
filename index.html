@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head> <meta name="google-site-verification" content="AxWxjxzv-3n9gYTovO6uiedJqrtN5E9vPeNvfMTX3CQ" />
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> عقار </title>
@@ -436,7 +436,39 @@
             <span>عقار فلاحي</span>
         </a>
     </div>
-    
+    <div class="sidebar" id="sidebarMenu">
+
+            <div class="close-btn" onclick="toggleMenu()">إغلاق القائمة X</div>
+
+                <a href="add-property.html" class="menu-item" id="item-sale" style="text-decoration: none; color: var(--text-color); display: flex;">
+                        <span>عنصر بيع</span>
+                                <span style="color: var(--accent-color);">*</span>
+                                    </a>
+
+                                        <div class="menu-item">
+                                                <span id="lbl-lang">اللغة</span>
+                                                        <select id="langSelect" onchange="switchLanguage(this.value)">
+                                                                    <option value="ar">العربية</option>
+                                                                                <option value="en">English</option>
+                                                                                        </select>
+                                                                                            </div>
+
+                                                                                                <div class="menu-item">
+                                                                                                        <span id="lbl-theme">الوضع الليلي</span>
+                                                                                                                <label class="switch">
+                                                                                                                            <input type="checkbox" onchange="switchTheme(this.checked)">
+                                                                                                                                        <span class="slider"></span>
+                                                                                                                                                </label>
+                                                                                                                                                    </div>
+
+                                                                                                                                                        <div class="menu-item">
+                                                                                                                                                                <a href="add-ad.html" class="menu-item" id="item-ad" style="text-decoration: none; color: var(--text-color); display: flex;">
+                                                                                                                                                                            <span>إعلان</span>
+                                                                                                                                                                                    </a>
+                                                                                                                                                                                        </div>
+
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        
     
            
 
@@ -482,14 +514,36 @@
 
     
 
-      
-                
-                
-                   
+                    
     <script>
+       function switchLanguage(lang) {
+           if (lang === "ar") {
+                   document.body.dir = "rtl";
+                           // هنا تضع الكود الخاص بتغيير النصوص إلى العربية
+                               } else if (lang === "en") {
+                                       document.body.dir = "ltr";
+                                               // هنا تضع الكود الخاص بتغيير النصوص إلى الإنجليزية
+                                                               }
+                                     // تحديث النصوص في الصفحة بناءً على القاموس              
+                                         document.getElementById('lbl-lang').textContent = dictionary[lang]['lang'];
+                                             document.getElementById('lbl-theme').textContent = dictionary[lang]['theme']; 
+                                                 // ملاحظة: تأكد من مطابقة الكلمات (مثل 'theme' أو 'lang') مع المفاتيح الموجودة داخل القاموس لديك
+                                                 }
+                                                   
+                                                           
+
+
+
+            
+
+       
+        
         function toggleMenu() {
-            document.getElementById('sidebarMenu').classList.toggle('open');
-        }
+            var sidebar = document.getElementById("sidebarMenu");
+                // هذا السطر يقوم بإضافة كلمة open للقائمة إذا لم تكن موجودة، أو حذفها إذا كانت موجودة
+                    sidebar.classList.toggle("open"); 
+                    }
+
 
         function switchTheme(isDark) {
             if(isDark) {
